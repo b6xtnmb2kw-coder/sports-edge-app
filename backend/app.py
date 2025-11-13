@@ -1,10 +1,16 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-@app.get("/")
-def home():
-    return {"message": "Backend running!"}
+# Allow frontend (localhost + vercel)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # you can restrict later
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/health")
 def health():
@@ -14,18 +20,11 @@ def health():
 def value_picks():
     return [
         {
-            "label": "Team A vs Team B",
+            "label": "Test Pick",
             "league": "NBA",
             "book": "DraftKings",
             "edge": 0.12,
-            "odds": "+150"
-        },
-        {
-            "label": "Team C vs Team D",
-            "league": "Soccer",
-            "book": "FanDuel",
-            "edge": 0.08,
-            "odds": "+110"
+            "odds": "+150",
         }
     ]
 
@@ -34,16 +33,11 @@ def upcoming_games():
     return [
         {
             "home_team": "Lakers",
-            "away_team": "Heat",
+            "away_team": "Warriors",
             "league": "NBA",
             "sport": "basketball",
-            "start_time": "2025-01-01T19:00:00"
-        },
-        {
-            "home_team": "Barcelona",
-            "away_team": "Real Madrid",
-            "league": "La Liga",
-            "sport": "soccer",
-            "start_time": "2025-01-02T16:00:00"
+            "start_time": "2025-11-13T20:00:00Z",
+            "market_total": 225.5,
+            "market_spread": -3.5,
         }
     ]
